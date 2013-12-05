@@ -1,5 +1,6 @@
 package com.votevis.client.model;
 
+import com.google.gwt.core.client.JsonUtils;
 import com.google.gwt.http.client.*;
 
 public class FusionService  {
@@ -16,11 +17,13 @@ public class FusionService  {
 		
 		try {
 		  Request request = builder.sendRequest(null, new RequestCallback() {
-		    public void onError(Request request, Throwable exception) {
+		    @Override
+			public void onError(Request request, Throwable exception) {
 		       responseText = "Couldn't connect to server (could be timeout, SOP violation, etc.)";
 		    }
 
-		    public void onResponseReceived(Request request, Response response) {
+		    @Override
+			public void onResponseReceived(Request request, Response response) {
 		      if (200 == response.getStatusCode()) {
 		    	responseText = response.getText();
 		      } else {
@@ -35,4 +38,37 @@ public class FusionService  {
 		
 		return responseText;
 	}
+		
+	private String getKey() {
+		return "&key=" + browserKey;
+	}
+	
+//	public Request getVotes() {
+//		String url = fusionTableUrl + "SELECT ID, Title FROM " + voteBaseTableId + getKey();
+//		builder = new RequestBuilder(RequestBuilder.GET, URL.encode(url));
+//		Request request;
+//		
+//		try {
+//			request = builder.sendRequest(null, new RequestCallback() {
+//			    @Override
+//				public void onError(Request request, Throwable exception) {
+//			       // TODO: Throw some exception...
+//			    }
+//	
+//			    @Override
+//				public void onResponseReceived(Request request, Response response) {
+//			      if (200 == response.getStatusCode()) {
+////			    	  kvd.initWithResponse(JsonUtils.safeEval(response.getText()).rows);
+//			      } else {
+//			        responseText = response.getStatusText();
+//			      }
+//			    }
+//			  });
+//		} catch (RequestException e) {
+//		  // Couldn't connect to server
+//			responseText = "Couldn't connect to server";
+//		}
+//		
+//		return request;
+//	}
 }
